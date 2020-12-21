@@ -4,3 +4,5 @@
 */bin
 */obj
 .vs
+.vscode
+okta-aspnetcore-mvc-example/appsettings.json

@@ -15,7 +15,6 @@ namespace okta_aspnetcore_mvc_example.Controllers
             this.searchClient = searchClient;
         }
 
-        [Authorize]
         [HttpGet]
         public IActionResult Index()
         {

@@ -1,25 +1,36 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using okta_aspnetcore_mvc_example.Models;
 
 namespace okta_aspnetcore_mvc_example.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ISearchClient searchClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ISearchClient searchClient)
         {
-            _logger = logger;
+            this.searchClient = searchClient;
         }
 
+        [Authorize]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
-
+        
+        [Authorize]
+        [HttpPost]
+        public IActionResult Index(string searchText)
+        {
+            var response = searchClient.SearchOrder(searchText);
+            var model = new SearchResultsModel {Results = response.Documents.ToList()};
+            return View(model);
+        }  
+        
         public IActionResult Privacy()
         {
             return View();
@@ -34,7 +45,7 @@ namespace okta_aspnetcore_mvc_example.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
     }
 }

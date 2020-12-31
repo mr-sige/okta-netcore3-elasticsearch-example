@@ -36,8 +36,9 @@ namespace okta_aspnetcore_mvc_example
                ClientSecret = Configuration.GetValue<string>("Okta:ClientSecret"),
                Scope = new List<string> { "openid", "profile", "email" },
            });
-
+            
             services.AddControllersWithViews();
+            services.AddSingleton<ISearchClient, SearchClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

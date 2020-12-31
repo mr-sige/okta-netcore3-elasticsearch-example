@@ -1,8 +1,36 @@
-﻿@{
+﻿@model SearchResultsModel
+@{
     ViewData["Title"] = "Home Page";
 }
-
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <form class="form-inline" asp-action="Index" asp-controller="Home">
+        <div class="form-group">
+            <input class="form-control m-2" asp-for="SearchText" placeholder="Search"/>
+        </div>
+        <button type="submit" class="btn btn-primary m-2">Search</button>
+    </form>
+    @if (Model?.Results != null)
+    {
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Order Date</th>
+                    <th>Total Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var result in Model.Results)
+                {
+                    <tr>
+                        <td>@result.CustomerFullName</td>
+                        <td>@result.OrderDate</td>
+                        <td>@result.TotalPrice</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>

@@ -20,19 +20,25 @@ namespace okta_aspnetcore_mvc_example.Controllers
         {
             return View();
         }
-        
-        [Authorize]
-        [HttpPost]
-        public IActionResult Index(string searchText)
-        {
-            var response = searchClient.SearchOrder(searchText);
-            var model = new SearchResultsModel {Results = response.Documents.ToList()};
-            return View(model);
-        }  
-        
+
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [Authorize]
+        public IActionResult Search()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Search(string searchText)
+        {
+            var response = searchClient.SearchOrder(searchText);
+            var model = new SearchResultsModel { Results = response.Documents.ToList() };
+            return View(model);
         }
 
         [Authorize]
@@ -44,7 +50,7 @@ namespace okta_aspnetcore_mvc_example.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
